@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-# प्रीमियम डार्क थीम सेटअप
+# प्रीमियम कॉन्फ़िगरेशन
 st.set_page_config(
     page_title="Freight-Intel™ Enterprise Terminal",
     page_icon="🚢",
@@ -11,9 +11,14 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# कस्टम सीएसएस फॉर कॉर्पोरेट लुक
+# 🔒 गिटहब आइकॉन, फॉर्क बटन और नीचे के फालतू स्ट्रीमलिट एलिमेंट्स को छुपाने का कोड
 st.markdown("""
     <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    .viewerBadge_link__1o1ih {display: none !important;}
+    input[type="text"] { background-color: #161A22; color: white; }
     .main { background-color: #0E1117; }
     .stMetric { background-color: #161A22; padding: 15px; border-radius: 10px; border: 1px solid #30363D; }
     h1 { color: #FFFFFF; font-family: 'Helvetica Neue', sans-serif; font-weight: 700; }
@@ -24,7 +29,7 @@ st.title("🚢 Freight-Intel™ Enterprise Terminal")
 st.markdown("### **Global Ocean Freight Spot Index & Predictive Analytics Pipeline**")
 st.markdown("---")
 
-# 🌍 8 सबसे बड़े ग्लोबल रूट्स का लाइव डेटा (Expanded Database)
+# 🌍 8 ग्लोबल रूट्स का डेटाबेस
 data = {
     "Extraction_Date": ["2026-03-10", "2026-03-12", "2026-03-14", "2026-03-16"] * 8,
     "Route_Corridor": (
@@ -43,15 +48,15 @@ data = {
         4100, 4150, 4200, 4250,  # SH-LA
         1950, 2000, 2050, 2100,  # ROT-NY
         4300, 4420, 4510, 4600,  # SH-GEN
-        4800, 4950, 5100, 5250,  # SH-NY (NEW)
-        950, 980, 1010, 1050,    # ROT-SH (NEW)
-        750, 780, 800, 820,      # LA-SH (NEW)
-        1100, 1150, 1180, 1200   # NY-ROT (NEW)
+        4800, 4950, 5100, 5250,  # SH-NY
+        950, 980, 1010, 1050,    # ROT-SH
+        750, 780, 800, 820,      # LA-SH
+        1100, 1150, 1180, 1200   # NY-ROT
     ]
 }
 df = pd.DataFrame(data)
 
-# साइडबार फिल्टर्स (Sidebar Controls)
+# साइडबार फिल्टर्स
 st.sidebar.header("🎛️ Terminal Controls")
 selected_route = st.sidebar.selectbox("Select Global Trade Lane", df["Route_Corridor"].unique())
 container_size = st.sidebar.radio("Container Specification", ["20ft Standard", "40ft High Cube"])
@@ -62,7 +67,7 @@ latest_price = filtered_df["Spot_Base_Rate_USD"].iloc[-1]
 previous_price = filtered_df["Spot_Base_Rate_USD"].iloc[-2]
 price_delta = latest_price - previous_price
 
-# मुख्य स्क्रीन लेआउट मैट्रिक्स
+# मुख्य स्क्रीन लेआउट
 col_m1, col_m2, col_m3 = st.columns(3)
 with col_m1:
     st.metric(label="Current Spot Rate Index", value=f"${latest_price} USD", delta=f"+${price_delta} USD")
@@ -73,7 +78,7 @@ with col_m3:
 
 st.markdown("### **Price Trend Matrix (Last 30 Days)**")
 
-# चार्ट रेंडरिंग
+# चार्ट
 fig = px.line(
     filtered_df,
     x="Extraction_Date",
@@ -91,11 +96,11 @@ fig.update_layout(
 )
 st.plotly_chart(fig, use_container_width=True)
 
-# --- 🔒 प्रीमियम पेपैल लॉक (Live Revenue Engine) ---
 st.markdown("---")
 st.subheader("🔒 Enterprise Data Feed & Historical Matrix")
 
-col_p1, col_p2 = st.columns()
+# फिक्स्ड कॉलम आर्किटेक्चर (TypeError का पक्का इलाज)
+col_p1, col_p2 = st.columns([2, 1])
 
 with col_p1:
     st.markdown("""
@@ -136,7 +141,7 @@ with col_p2:
     st.markdown("**Live Route Intelligence**")
     st.caption("All indexes reference the Drewry WCI and Shanghai Containerized Freight Index nodes.")
 
-# --- 🛡️ लीगल डिस्क्लेमर (No Lawsuit Guarantee) ---
+# 🛡️ लीगल डिस्क्लेमर
 st.markdown("---")
 st.markdown(
     """
